@@ -1,44 +1,70 @@
-Create a complete AI-optimized GitHub repository setup using placeholders for customization.
+# {{PROJECT_NAME}}
 
-PROJECT INPUT PLACEHOLDERS:
-Use these exact placeholders in all generated files:
-- {{PROJECT_NAME}}
-- {{PROJECT_DESCRIPTION}}
-- {{TECH_STACK}}
-- {{CURRENT_DATE}}
+> {{PROJECT_DESCRIPTION}}
 
-GENERATE THESE FILES WITH FULL CONTENTS:
+## Status
 
-1. .ai/context.md
-2. .ai/conventions.md
-3. .ai/decisions.md
-4. .ai/prompts.md
-5. .ai/metrics.md
-6. README.md
-7. docs/setup.md
-8. docs/architecture.md
-9. CHANGELOG.md
-10. .gitignore (language-agnostic base: .env, .DS_Store, node_modules/, __pycache__/, *.pyc, .vscode/, .idea/, dist/, build/)
+- **Phase:** pre-alpha
+- **Version:** 0.1.0 (see [CHANGELOG.md](./CHANGELOG.md))
+- **Last updated:** {{CURRENT_DATE}}
+- **Deployed?** No — local development only.
+- **Stable?** No. Expect breaking changes without notice until 1.0.
 
-REQUIREMENTS:
-- .ai/context.md: Include "What This Is", "Current State", "Stack", "Key Constraints", "Entry Points" sections with placeholders
-- .ai/conventions.md: Include "File Naming", "Code Style", "Architecture Patterns", "Forbidden", "When Adding New Code" sections with language-agnostic defaults
-- .ai/decisions.md: Include template structure with one example decision
-- .ai/prompts.md: Include templates for: "Starting a Session", "Adding a Feature", "Debugging", "Refactoring", "Code Review", "Update Context"
-- .ai/metrics.md: Include tracking table with columns: Date | Feature | AI Sessions | Total Tokens | Bugs Found | Notes
-- README.md: Include "Status", "Quick Start", "What Works", "What's Next", "Documentation" sections
-- docs/setup.md: Include "Prerequisites", "First Time Setup", "Environment Variables", "Verify Installation", "Troubleshooting" sections
-- docs/architecture.md: Include "Directory Structure", "Data Flow", "Key Design Principles", "External Dependencies", "Testing Strategy" sections
-- CHANGELOG.md: Include version 0.1.0 template with "Added/Changed/Fixed" sections
+## Quick Start
 
-OUTPUT FORMAT:
-For each file:
-1. Show full file path (e.g., `.ai/context.md`)
-2. Provide complete file contents in a markdown code block
-3. Add a brief note: "Customize now: [what]" or "Customize later: [what]"
+```bash
+# 1. Clone
+git clone https://github.com/<org>/{{PROJECT_NAME}}.git
+cd {{PROJECT_NAME}}
 
-After all files, provide:
-1. Git initialization commands (init, add, commit, remote add, push)
-2. Exact prompt to start first AI coding session (should reference .ai/ files)
+# 2. Install dependencies
+make install           # or: uv sync / npm install / cargo build
 
-Make all content copy-paste-ready. Use realistic examples in templates, not abstract placeholders.
+# 3. Configure environment
+cp .env.example .env
+# edit .env with your local values
+
+# 4. Run
+make dev               # or: uvicorn src.main:app --reload / npm run dev
+
+# 5. Verify
+curl http://localhost:8000/health
+# -> {"status":"ok"}
+```
+
+Full instructions, including prerequisites and troubleshooting, are in
+[docs/setup.md](./docs/setup.md).
+
+## What Works
+
+- Repository scaffolding with AI-first docs in [`.ai/`](./.ai/).
+- Base `.gitignore`, `CHANGELOG.md`, and `docs/` structure.
+- Template prompts for common AI coding sessions.
+
+Replace this list with actual working features as you ship them. Example:
+
+- `GET /health` — liveness probe.
+- `POST /imports` — accepts a CSV up to 5 MB and returns a job id.
+- `GET /imports/{id}` — returns job status and any parse errors.
+
+## What's Next
+
+The short list. If it isn't here, it isn't being worked on.
+
+- [ ] Pick and document the stack in `.ai/context.md` (`{{TECH_STACK}}`).
+- [ ] Stand up the app entry point (`src/main.py` or equivalent) and a
+      `/health` endpoint.
+- [ ] Wire CI: format, lint, test on every PR.
+- [ ] Write the first ADR for the chosen datastore.
+- [ ] First end-to-end feature slice behind a feature flag.
+
+## Documentation
+
+- [.ai/context.md](./.ai/context.md) — what this is, current state, constraints
+- [.ai/conventions.md](./.ai/conventions.md) — coding rules
+- [.ai/decisions.md](./.ai/decisions.md) — architectural decision records
+- [.ai/prompts.md](./.ai/prompts.md) — prompt templates for AI sessions
+- [.ai/metrics.md](./.ai/metrics.md) — AI-assist usage log
+- [docs/setup.md](./docs/setup.md) — local development setup
+- [docs/architecture.md](./docs/architecture.md) — directory structure, data flow
+- [CHANGELOG.md](./CHANGELOG.md) — release history
