@@ -7,64 +7,38 @@
 - **Phase:** pre-alpha
 - **Version:** 0.1.0 (see [CHANGELOG.md](./CHANGELOG.md))
 - **Last updated:** {{CURRENT_DATE}}
-- **Deployed?** No — local development only.
-- **Stable?** No. Expect breaking changes without notice until 1.0.
+- **Deployed?** No.
 
-## Quick Start
+## How Work Happens Here
 
-```bash
-# 1. Clone
-git clone https://github.com/<org>/{{PROJECT_NAME}}.git
-cd {{PROJECT_NAME}}
+- Edits via Claude Code (GitHub integration) or the GitHub web editor on Safari.
+- No local dev, no terminal, no package managers — never assume them.
+- Push directly to `main` by default. Branch only for destructive or high-risk changes.
+- Deploy is auto-triggered on push to `main` (GitHub Pages or Netlify, per project).
+- Verification happens on the deployed preview, not on a localhost.
 
-# 2. Install dependencies
-make install           # or: uv sync / npm install / cargo build
-
-# 3. Configure environment
-cp .env.example .env
-# edit .env with your local values
-
-# 4. Run
-make dev               # or: uvicorn src.main:app --reload / npm run dev
-
-# 5. Verify
-curl http://localhost:8000/health
-# -> {"status":"ok"}
-```
-
-Full instructions, including prerequisites and troubleshooting, are in
-[docs/setup.md](./docs/setup.md).
+See [docs/workflow.md](./docs/workflow.md) for the full working model.
 
 ## What Works
 
-- Repository scaffolding with AI-first docs in [`.ai/`](./.ai/).
-- Base `.gitignore`, `CHANGELOG.md`, and `docs/` structure.
-- Template prompts for common AI coding sessions.
+- AI-first docs in [`.ai/`](./.ai/).
+- `CHANGELOG.md`, `docs/`, `.gitignore` scaffolding.
 
-Replace this list with actual working features as you ship them. Example:
-
-- `GET /health` — liveness probe.
-- `POST /imports` — accepts a CSV up to 5 MB and returns a job id.
-- `GET /imports/{id}` — returns job status and any parse errors.
+Replace this with real shipped features as they land.
 
 ## What's Next
 
-The short list. If it isn't here, it isn't being worked on.
-
-- [ ] Pick and document the stack in `.ai/context.md` (`{{TECH_STACK}}`).
-- [ ] Stand up the app entry point (`src/main.py` or equivalent) and a
-      `/health` endpoint.
-- [ ] Wire CI: format, lint, test on every PR.
-- [ ] Write the first ADR for the chosen datastore.
-- [ ] First end-to-end feature slice behind a feature flag.
+- [ ] Pick the stack and fill in `.ai/context.md` (`{{TECH_STACK}}`).
+- [ ] First end-to-end feature slice, deployed.
 
 ## Documentation
 
+- [CLAUDE.md](./CLAUDE.md) — read first; how Claude should work in this repo
 - [.ai/context.md](./.ai/context.md) — what this is, current state, constraints
 - [.ai/conventions.md](./.ai/conventions.md) — coding rules
-- [.ai/decisions.md](./.ai/decisions.md) — architectural decision records
-- [.ai/prompts.md](./.ai/prompts.md) — prompt templates for AI sessions
-- [.ai/metrics.md](./.ai/metrics.md) — AI-assist usage log
-- [docs/setup.md](./docs/setup.md) — local development setup
-- [docs/architecture.md](./docs/architecture.md) — directory structure, data flow
+- [.ai/decisions.md](./.ai/decisions.md) — ADRs
+- [.ai/prompts.md](./.ai/prompts.md) — prompt templates
+- [.ai/metrics.md](./.ai/metrics.md) — AI-assist log
+- [docs/workflow.md](./docs/workflow.md) — working model + deploy
+- [docs/architecture.md](./docs/architecture.md) — structure + data flow
 - [CHANGELOG.md](./CHANGELOG.md) — release history
