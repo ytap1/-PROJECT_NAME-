@@ -1,12 +1,12 @@
 # Decisions: {{PROJECT_NAME}}
 
-An append-only log of architectural and technical decisions. Each entry
+Append-only log of architectural and technical decisions. Each entry
 answers: what did we pick, what did we reject, and why?
 
-- **Never rewrite history.** If a decision is reversed, add a new entry that
+- **Never rewrite history.** Reversed decisions get a new entry that
   supersedes the old one. Cross-link them.
-- **Keep entries short.** If it needs more than a page, link to a doc.
-- **Number entries sequentially** (ADR-0001, ADR-0002, ...).
+- **Keep entries short.** Link out if it needs more than a page.
+- **Number sequentially** (ADR-0001, ADR-0002, ...).
 
 ## Template
 
@@ -15,61 +15,55 @@ answers: what did we pick, what did we reject, and why?
 
 - **Date:** YYYY-MM-DD
 - **Status:** Proposed | Accepted | Superseded by ADR-XXXX | Deprecated
-- **Deciders:** <names or roles>
 
 ### Context
-
-What is the problem? What forces are at play? 2–5 sentences.
+<problem and forces, 2–5 sentences>
 
 ### Decision
-
-The choice we made, in one or two sentences.
+<the choice, 1–2 sentences>
 
 ### Alternatives Considered
-
 - **Option A:** why rejected.
 - **Option B:** why rejected.
 
 ### Consequences
-
-- **Positive:** what gets easier.
-- **Negative:** what gets harder or what we give up.
-- **Follow-ups:** anything this unlocks or requires next.
+- **Positive:** <what gets easier>
+- **Negative:** <what gets harder>
+- **Follow-ups:** <what this unlocks or requires next>
 ```
 
 ---
 
-## ADR-0001: Use PostgreSQL for primary storage
+## ADR-0001: Push directly to `main`; branch only for destructive changes
 
 - **Date:** {{CURRENT_DATE}}
 - **Status:** Accepted
-- **Deciders:** founding team
 
 ### Context
 
-We need a primary datastore for user accounts, ledger entries, and import
-jobs. Reads are ~10x writes. We need transactional integrity across the
-ledger and a clear path to JSON columns for semi-structured import payloads.
+Solo developer working from iPad/Safari + Claude Code. PR review overhead
+adds friction with no second reviewer. Most changes are small and
+incremental. Auto-deploy on push to `main` is the desired feedback loop.
 
 ### Decision
 
-Use PostgreSQL 16 as the single primary store. Access it through SQLAlchemy
-2.x with Alembic migrations. No ORM calls outside `src/repositories/`.
+Push directly to `main` for routine changes. Create a branch only when
+the change is destructive or high-risk: schema rewrites, mass renames,
+deletions, anything that could break the deployed site without an easy
+rollback.
 
 ### Alternatives Considered
 
-- **SQLite:** great for local dev, but we want a single prod-parity target
-  and expect concurrent writes from background jobs.
-- **MongoDB:** our core data is relational (users → accounts → entries).
-  Mapping it to documents adds friction without a clear upside.
-- **DynamoDB:** lock-in concerns and we don't yet have access patterns
-  stable enough to design keys.
+- **PR-per-change:** standard team practice, but no second reviewer here
+  and it slows the iPad/web workflow.
+- **Trunk-based with feature flags:** future option once the project has
+  enough surface area to need it.
 
 ### Consequences
 
-- **Positive:** strong consistency, rich query language, `jsonb` escape
-  hatch for semi-structured data, mature ecosystem.
-- **Negative:** ops cost of running Postgres in prod (managed host needed);
-  schema migrations require discipline.
-- **Follow-ups:** pick a managed host (candidate: Supabase or Neon); add a
-  CI step that runs migrations against a scratch DB.
+- **Positive:** fastest possible iteration; one source of truth; deploy
+  preview = production preview.
+- **Negative:** no review gate before deploy. Mitigation: Claude Code
+  runs CI checks; `git revert` is the rollback path.
+- **Follow-ups:** if a class of bug starts shipping to `main`, add a CI
+  check that would have caught it.

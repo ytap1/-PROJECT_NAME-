@@ -1,25 +1,26 @@
 # Prompts: {{PROJECT_NAME}}
 
-Copy-paste templates for common AI coding sessions. Fill in the `<...>`
-slots before pasting. These are starting points — edit them as the project
-matures.
+Copy-paste templates for common Claude sessions. Fill the `<...>` slots
+before pasting. Edit as the project matures.
 
-## Starting a Session
+## Starting a Chat (any concern)
 
 ```
-You are working on {{PROJECT_NAME}}: {{PROJECT_DESCRIPTION}}.
+Concern for this chat: <App Dev | Prompt Refinement | Docs | other>.
+Stay in this lane unless I say otherwise.
 
-Before touching any code, read these in order:
-1. .ai/context.md — what this is, current state, stack, constraints
-2. .ai/conventions.md — coding rules (naming, layout, forbidden patterns)
-3. .ai/decisions.md — why things are the way they are
+Before changing anything, read in order:
+1. CLAUDE.md
+2. .ai/context.md
+3. .ai/conventions.md
+4. .ai/decisions.md
 
-Then confirm back to me, in 3 bullets:
-- the current phase and what is known-broken
-- the one-way dependency rule for layers
-- two things the "Forbidden" list prohibits
+Confirm in 3 bullets:
+- current phase + anything known broken
+- the working-model rules that affect today's task
+- two things "Forbidden" prohibits
 
-Do not write code until I approve your summary. Today's goal: <goal>.
+Do not write code until I approve. Today's goal: <goal>.
 ```
 
 ## Adding a Feature
@@ -28,23 +29,21 @@ Do not write code until I approve your summary. Today's goal: <goal>.
 Feature: <one-sentence description>
 
 User story:
-  As a <role>, I want to <capability>, so that <outcome>.
+  As a <role>, I want <capability>, so that <outcome>.
 
 Acceptance criteria:
-  - <concrete, testable statement>
-  - <concrete, testable statement>
-  - <error/edge case behavior>
+  - <testable statement>
+  - <testable statement>
+  - <error/edge case>
 
 Constraints (from .ai/context.md and .ai/conventions.md):
-  - Must live under src/features/<name>/ (or justify why not).
-  - Needs integration test in tests/integration/.
-  - No new top-level dependencies without an ADR.
+  - <project-specific>
 
-Deliver in this order, pausing for review after each:
-  1. A short plan: files you will create/modify, and the public API.
-  2. The test(s) — failing first.
-  3. The implementation that makes the tests pass.
-  4. Doc updates (README / context.md / architecture.md as needed).
+Deliver in this order, pause for review after each:
+  1. Plan: files to create/modify, public surface.
+  2. Implementation.
+  3. Doc updates (README / context.md / architecture.md as needed).
+  4. Verification: what to check on the deploy preview after push.
 ```
 
 ## Debugging
@@ -52,50 +51,46 @@ Deliver in this order, pausing for review after each:
 ```
 Bug: <one-line symptom>
 
-Repro steps:
+Repro:
   1. <step>
-  2. <step>
-  3. <observed behavior>
+  2. <observed>
 
 Expected: <what should happen>
-Environment: <OS, runtime version, commit sha>
+Where seen: <deploy URL / browser / device>
 
-Relevant files (start here, then expand as needed):
-  - <path>
+Relevant files (start here, expand as needed):
   - <path>
 
-Logs / stack trace:
+Logs / errors:
 ```
 <paste>
 ```
 
 Do this:
-  1. Form a hypothesis about the root cause. State it before reading more code.
-  2. Identify the smallest change that would confirm or reject the hypothesis.
-  3. If the hypothesis survives, propose a fix AND a regression test.
-  4. Do not "fix" by widening a try/except or by silencing the symptom.
+  1. State a hypothesis before reading more code.
+  2. Identify the smallest change that confirms or rejects it.
+  3. If it survives, propose the fix and how to verify it on the deploy
+     preview.
+  4. Do not "fix" by widening a try/except or silencing the symptom.
 ```
 
 ## Refactoring
 
 ```
-Refactor target: <module or pattern>
-
-Why now: <specific pain point — not "it feels messy">
-Out of scope: <what you must NOT change in this pass>
+Refactor: <module or pattern>
+Why now: <specific pain — not "feels messy">
+Out of scope: <what must NOT change>
 
 Rules:
-  - Behavior must not change. Tests must pass before and after with no edits.
-  - If a test needs to change to keep passing, stop and ask.
-  - One concern per commit. No drive-by renames in the same diff.
-  - If you find a bug mid-refactor, note it and keep going — fix in a
-    separate PR.
+  - Behavior must not change.
+  - One concern per commit.
+  - If a bug surfaces mid-refactor, note it and keep going — fix separately.
 
 Deliver:
-  1. A "before" sketch: current shape, in 5–10 lines of prose or pseudocode.
-  2. An "after" sketch: target shape, same form.
+  1. "Before" sketch (5–10 lines).
+  2. "After" sketch.
   3. The diff.
-  4. Evidence tests still pass: paste the test runner output.
+  4. What to spot-check on the deploy preview.
 ```
 
 ## Code Review
@@ -109,9 +104,8 @@ Give me, in order:
   3. Suggestions (non-blocking, marked "nit:").
   4. What's good — at least one thing.
 
-Do not rewrite the code. Point at the line and describe the change in one
-sentence. If something is ambiguous in the conventions, say so and
-recommend an ADR.
+Don't rewrite the code. Point at the line and describe the change in one
+sentence. If a convention is ambiguous, say so and recommend an ADR.
 
 Diff:
 ```
@@ -122,18 +116,16 @@ Diff:
 ## Update Context
 
 ```
-We just finished: <what shipped or changed>.
+We just finished: <what shipped>.
 
-Update .ai/context.md so that a fresh AI session starting tomorrow has
-accurate ground truth. Specifically:
+Update .ai/context.md so a fresh chat tomorrow has accurate ground truth:
+  - "Current State" — phase, version, deployed, broken
+  - "Entry Points" — add/remove any new files
+  - "Key Constraints" — any new hard rules from this change
+  - "Last updated" date at the top
 
-  - "Current State" — phase, version, what's deployed, what's broken.
-  - "Entry Points" — add/remove any new entry files, scripts, or commands.
-  - "Key Constraints" — add any new hard rules this change introduced.
-  - "Last updated" date at the top.
-
-If a significant choice was made (new dep, new pattern, reversed an earlier
-call), also add an entry to .ai/decisions.md using the template there.
+If a significant choice was made (new dep, reversed earlier call), add
+an entry to .ai/decisions.md.
 
 Show me the diff before saving.
 ```
