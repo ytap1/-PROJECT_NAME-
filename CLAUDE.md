@@ -4,20 +4,21 @@ Read this first. Then `.ai/context.md`, then `.ai/conventions.md`.
 
 ## Working Model (non-negotiable)
 
-- **iPad/iPhone + Safari only.** No terminal, no laptop.
-- **No package managers, no localhost, no CLI instructions in docs.**
-- **Push directly to `main`** for routine changes. Branch only for
-  destructive/high-risk work (schema rewrites, mass renames, deletions).
-- **Deploy auto-triggers on push to `main`** (GitHub Pages or Netlify).
-  Verify on the deployed URL, never localhost.
-- **Multi-chat workflow.** Each chat covers one concern (App Dev, Prompt
-  Refinement, Docs, etc.). Stay in the lane named in the current chat.
+- **Branch-per-feature.** All work lives on a short-lived feature branch. No
+  direct commits to `main` except emergency hotfixes (still need a follow-up PR).
+- **PR → review → merge.** Every PR gets at least a self-review — run
+  `/review` before merging.
+- **Full CLI access.** Git, package managers, test runners, and build tools
+  are all available and expected.
+- **Local development first.** Verify changes locally before pushing. CI
+  catches what local misses — don't rely on CI as a first-pass linter.
+- **Deployment:** <fill in per-project — e.g., merged PRs auto-deploy via
+  GitHub Actions, or deploy manually with `<command>`>.
 
 ## Token Discipline
 
 - Short, accurate prose beats long, hedged prose.
 - No restating obvious context back to the user.
-- No CLI walkthroughs (the user can't run them).
 - Trim every doc you touch.
 
 ## Read in Order

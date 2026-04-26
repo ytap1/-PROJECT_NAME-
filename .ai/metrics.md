@@ -8,7 +8,7 @@ Add a row per meaningful session ("meaningful" = code shipped, not
 
 - **Date:** YYYY-MM-DD the session ended.
 - **Feature:** short tag. Match a commit/PR/ADR when possible.
-- **Sessions:** distinct chats it took to finish.
+- **Sessions:** distinct sessions it took to finish.
 - **Tokens:** approximate, from the provider dashboard.
 - **Bugs Found:** discovered during/because of the session.
 - **Notes:** one line. What worked, what didn't, what to try next.

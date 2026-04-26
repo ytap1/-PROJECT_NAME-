@@ -17,10 +17,10 @@ answers: what did we pick, what did we reject, and why?
 - **Status:** Proposed | Accepted | Superseded by ADR-XXXX | Deprecated
 
 ### Context
-<problem and forces, 2–5 sentences>
+<problem and forces, 2-5 sentences>
 
 ### Decision
-<the choice, 1–2 sentences>
+<the choice, 1-2 sentences>
 
 ### Alternatives Considered
 - **Option A:** why rejected.
@@ -34,36 +34,36 @@ answers: what did we pick, what did we reject, and why?
 
 ---
 
-## ADR-0001: Push directly to `main`; branch only for destructive changes
+## ADR-0001: Branch-per-feature; merge to `main` via PR
 
 - **Date:** {{CURRENT_DATE}}
 - **Status:** Accepted
 
 ### Context
 
-Solo developer working from iPad/Safari + Claude Code. PR review overhead
-adds friction with no second reviewer. Most changes are small and
-incremental. Auto-deploy on push to `main` is the desired feedback loop.
+Laptop + CLI workflow with full git tooling available. This template is
+intended for use by a small team (up to 5-10 people), so habits formed here
+need to scale beyond solo work. Direct pushes to `main` eliminate the review
+gate that catches regressions before they land.
 
 ### Decision
 
-Push directly to `main` for routine changes. Create a branch only when
-the change is destructive or high-risk: schema rewrites, mass renames,
-deletions, anything that could break the deployed site without an easy
-rollback.
+All changes live on a short-lived feature branch. Merge to `main` only via
+PR after at least a self-review (`/review`). Emergency hotfixes may push
+directly but require a follow-up PR.
 
 ### Alternatives Considered
 
-- **PR-per-change:** standard team practice, but no second reviewer here
-  and it slows the iPad/web workflow.
+- **Push directly to `main`:** removes friction but eliminates the pre-merge
+  review gate. Appropriate for solo/no-CI projects; not appropriate here.
 - **Trunk-based with feature flags:** future option once the project has
   enough surface area to need it.
 
 ### Consequences
 
-- **Positive:** fastest possible iteration; one source of truth; deploy
-  preview = production preview.
-- **Negative:** no review gate before deploy. Mitigation: Claude Code
-  runs CI checks; `git revert` is the rollback path.
-- **Follow-ups:** if a class of bug starts shipping to `main`, add a CI
-  check that would have caught it.
+- **Positive:** every change has a review artifact; `main` stays deployable;
+  CI runs on PRs before merge.
+- **Negative:** slight overhead vs. direct push. Mitigation: keep branches
+  short-lived and PRs small.
+- **Follow-ups:** add branch protection rules on `main` once the team grows
+  past two contributors.

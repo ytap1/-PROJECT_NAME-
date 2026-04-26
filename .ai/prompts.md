@@ -50,18 +50,15 @@ For each file:
 3. Add a brief note: "Customize now: [what]" or "Customize later: [what]"
 
 After all files, provide:
-1. Git initialization commands (init, add, commit, remote add, push)
+1. Git commands to initialize, commit, and push the scaffold
 2. Exact prompt to start first AI coding session (should reference .ai/ files)
 
 Make all content copy-paste-ready. Use realistic examples in templates, not abstract placeholders.
 ````
 
-## Starting a Chat (any concern)
+## Starting a Session
 
 ```
-Concern for this chat: <App Dev | Prompt Refinement | Docs | other>.
-Stay in this lane unless I say otherwise.
-
 Before changing anything, read in order:
 1. CLAUDE.md
 2. .ai/context.md
@@ -96,7 +93,7 @@ Deliver in this order, pause for review after each:
   1. Plan: files to create/modify, public surface.
   2. Implementation.
   3. Doc updates (README / context.md / architecture.md as needed).
-  4. Verification: what to check on the deploy preview after push.
+  4. Verification: how to confirm the change works locally or in CI.
 ```
 
 ## Debugging
@@ -109,7 +106,7 @@ Repro:
   2. <observed>
 
 Expected: <what should happen>
-Where seen: <deploy URL / browser / device>
+Where seen: <environment — local, staging, or production>
 
 Relevant files (start here, expand as needed):
   - <path>
@@ -122,8 +119,7 @@ Logs / errors:
 Do this:
   1. State a hypothesis before reading more code.
   2. Identify the smallest change that confirms or rejects it.
-  3. If it survives, propose the fix and how to verify it on the deploy
-     preview.
+  3. If it survives, propose the fix and how to verify it locally or in CI.
   4. Do not "fix" by widening a try/except or silencing the symptom.
 ```
 
@@ -140,10 +136,10 @@ Rules:
   - If a bug surfaces mid-refactor, note it and keep going — fix separately.
 
 Deliver:
-  1. "Before" sketch (5–10 lines).
+  1. "Before" sketch (5-10 lines).
   2. "After" sketch.
   3. The diff.
-  4. What to spot-check on the deploy preview.
+  4. What to spot-check locally or in CI.
 ```
 
 ## Code Review
@@ -171,7 +167,7 @@ Diff:
 ```
 We just finished: <what shipped>.
 
-Update .ai/context.md so a fresh chat tomorrow has accurate ground truth:
+Update .ai/context.md so a fresh session tomorrow has accurate ground truth:
   - "Current State" — phase, version, deployed, broken
   - "Entry Points" — add/remove any new files
   - "Key Constraints" — any new hard rules from this change
